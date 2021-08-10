@@ -12,7 +12,7 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/', function(req, res) {
-    console.log(req.body)
+    // console.log(req.body)
     sendMeaning(req.body)
     res.send("success")
 
@@ -69,7 +69,7 @@ async function fetchMeaning(word) {
         .catch(e => {
             return false;
         })
-    console.log(data)
+    // console.log(data)
     return data;
 
 
