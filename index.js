@@ -11,10 +11,21 @@ const axios = require('axios')
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.get('*', (req, res) => {
+    res.status(404).send("<h1>Sorry, Nothing's here</h1>")
+})
+
 app.post('/', function(req, res) {
-    // console.log(req.body)
-    sendMeaning(req.body)
-    res.send("success")
+    // console.log(req.body.Body)
+    
+    if(req.body.Body!=undefined){
+        sendMeaning(req.body);
+        res.status(200).send("success");
+    }
+    else{
+        res.status(400).send("failure")
+    }
+    
 
 
 })
@@ -33,7 +44,7 @@ async function sendMeaning(data) {
                 body: `*${result.word}*\n\n_Definition:_ ${result.meanings[0].definitions[0].definition}\n\n_Example:_ ${result.meanings[0].definitions[0].example}`,
                 to: data.From
             })
-            .then(message => console.log(message.sid));
+            .then(message => console.log(data.From,"definition message",message.sid));
 
         client.messages
             .create({
@@ -42,7 +53,7 @@ async function sendMeaning(data) {
                 from: 'whatsapp:+14155238886',
                 to: data.From
             })
-            .then(message => console.log(message.sid));
+            .then(message => console.log(data.From,"audio message",message.sid));
     } else {
         client.messages
             .create({
@@ -50,7 +61,7 @@ async function sendMeaning(data) {
                 body: `Some Error occured or the word you entered doesn't match any of our records.... \n\n_Please try again_`,
                 to: data.From
             })
-            .then(message => console.log(message.sid));
+            .then(message => console.log(data.From,"error message",message.sid));
     }
 
 
