@@ -58,7 +58,7 @@ async function sendMeaning(data) {
     } else {
         client.messages
             .create({
-                from: 'whatsapp:+14155238886',
+                from: `whatsapp:${process.env.FROM_NUMBER}`,
                 body: `Some Error occured or the word you entered doesn't match any of our records.... \n\n_Please try again_`,
                 to: data.From
             })
