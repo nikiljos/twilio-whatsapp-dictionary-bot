@@ -35,12 +35,13 @@ async function sendMeaning(data) {
     if (result) {
 
         // console.log("result", result)
+        
 
 
 
         client.messages
             .create({
-                from: 'whatsapp:+14155238886',
+                from: `whatsapp:${process.env.FROM_NUMBER}`,
                 body: `*${result.word}*\n\n_Definition:_ ${result.meanings[0].definitions[0].definition}\n\n_Example:_ ${result.meanings[0].definitions[0].example}`,
                 to: data.From
             })
@@ -50,7 +51,7 @@ async function sendMeaning(data) {
             .create({
                 mediaUrl: [`https:${result.phonetics[0].audio}`],
 
-                from: 'whatsapp:+14155238886',
+                from: `whatsapp:${process.env.FROM_NUMBER}`,
                 to: data.From
             })
             .then(message => console.log(data.From,"audio message",message.sid));
